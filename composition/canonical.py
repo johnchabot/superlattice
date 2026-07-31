@@ -1,12 +1,13 @@
+"""Canonical four-silo composition."""
+
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 from superlattice.geometry.point import Point3D
 
 
-# Geometry (rarely changes)
-
 PRISM_RADIUS = 100.0
-PRISM_ROTATION = 45.0      # Adjust if your vertex ordering requires a different value
 
 
 @dataclass(frozen=True)
@@ -14,29 +15,40 @@ class SiloSpec:
     name: str
     center: Point3D
     height: float
+    rotation: float
 
 
-# Composition (we'll iterate on this)
+SILOS = [
 
-SILOS = (
+    # Top (largest)
     SiloSpec(
-        "rear",
-        Point3D(0, -80, 0),
-        420,
+        name="top",
+        center=Point3D(0.0, -75.0, 0.0),
+        height=360.0,
+        rotation=90.0,
     ),
+
+    # Right
     SiloSpec(
-        "left",
-        Point3D(-70, -10, 0),
-        340,
+        name="right",
+        center=Point3D(75.0, 0.0, 0.0),
+        height=260.0,
+        rotation=45.0,
     ),
+
+    # Bottom
     SiloSpec(
-        "right",
-        Point3D(70, -10, 0),
-        300,
+        name="bottom",
+        center=Point3D(0.0, 75.0, 0.0),
+        height=220.0,
+        rotation=0.0,
     ),
+
+    # Left
     SiloSpec(
-        "front",
-        Point3D(0, 70, 0),
-        240,
+        name="left",
+        center=Point3D(-75.0, 0.0, 0.0),
+        height=300.0,
+        rotation=135.0,
     ),
-)
+]
