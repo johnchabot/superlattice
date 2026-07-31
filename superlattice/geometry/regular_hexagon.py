@@ -13,14 +13,20 @@ from .polygon import Polygon
 class RegularHexagon:
     center: Point3D
     radius: float
+    rotation: float = 0.0
 
     def polygon(self) -> Polygon:
-        vertices = tuple(
-            Point3D(
-                self.center.x + self.radius * cos(i * pi / 3),
-                self.center.y + self.radius * sin(i * pi / 3),
-                self.center.z,
+        vertices = []
+
+        for i in range(6):
+            angle = self.rotation * pi / 180 + i * pi / 3
+
+            vertices.append(
+                Point3D(
+                    self.center.x + self.radius * cos(angle),
+                    self.center.y + self.radius * sin(angle),
+                    self.center.z,
+                )
             )
-            for i in range(6)
-        )
-        return Polygon(vertices)
+
+        return Polygon(tuple(vertices))

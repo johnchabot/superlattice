@@ -17,16 +17,22 @@ class HexagonalPrism(Solid):
     center: Point3D
     radius: float
     height: float
+    rotation: float = 0.0
 
     @property
     def bottom(self) -> RegularHexagon:
-        return RegularHexagon(self.center, self.radius)
+        return RegularHexagon(
+            self.center,
+            self.radius,
+            self.rotation,
+        )
 
     @property
     def top(self) -> RegularHexagon:
         return RegularHexagon(
             self.center.translate(dz=self.height),
             self.radius,
+            self.rotation,
         )
 
     @property
@@ -57,7 +63,7 @@ class HexagonalPrism(Solid):
             Edge(v[10], v[11]),
             Edge(v[11], v[6]),
 
-            # Verticals
+            # Vertical edges
             Edge(v[0], v[6]),
             Edge(v[1], v[7]),
             Edge(v[2], v[8]),
