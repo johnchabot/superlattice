@@ -1,73 +1,169 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="-300 -300 600 600">
 
 <style>
+
+:root {
+
+    --scene-background: rgb(255 255 255);
+
+    --edge-energy: rgba(245,248,252,.32);
+    --edge-colour: rgb(64 64 64);
+    --edge-width: 1;
+    --edge-opacity: 1.0;
+
+    --transmission-top: rgba(255,255,255,0.045);
+    --transmission-side: rgba(255,255,255,0.022);
+    --material-bottom: rgba(255,255,255,0.010);
+
+
+
+}
+
+/* ------------------------------------------------------------------ */
+/* Scene */
+/* ------------------------------------------------------------------ */
+
 svg {
-    background: #ffffff;
+    background: var(--scene-background);
 }
 
-polygon {
-    fill: rgba(255,255,255,0.10);
-    stroke: #404040;
-    stroke-width: 1;
+/* ------------------------------------------------------------------ */
+/* Geometry */
+/* ------------------------------------------------------------------ */
+
+.face {
+
+    stroke: rgba(245,248,252,.32);
+
+    stroke-width: .85;
+    stroke: var(--edge-energy);
     vector-effect: non-scaling-stroke;
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
 }
 
-polygon.top {
-    fill: rgba(255,255,255,0.18);
+.face:hover {
+
+    stroke: rgba(255,255,255,.9);
+
 }
 
-polygon.bottom {
-    fill: rgba(255,255,255,0.03);
+/* ------------------------------------------------------------------ */
+/* Material */
+/* ------------------------------------------------------------------ */
+
+.face-top {
+
+    fill: var(--material-top);
+
 }
 
-polygon.side0,
-polygon.side1,
-polygon.side2,
-polygon.side3,
-polygon.side4,
-polygon.side5 {
-    fill: rgba(255,255,255,0.08);
+.face-side {
+
+    fill: rgba(255,255,255,.028);
+
 }
+
+.face-top {
+
+    fill: rgba(255,255,255,.040);
+
+}
+
+.face-bottom {
+
+    fill: rgba(255,255,255,.012);
+
+}
+
+/* ------------------------------------------------------------------ */
+/* Future placeholders */
+/* ------------------------------------------------------------------ */
+
+.scene {}
+.neighbourhood {}
+
+.member {}
+
+.render {}
+.render-fill {}
+.render-edge {}
+
+.material {}
+.material-transmission {}
+.material-density {}
+
+.optical {}
+.optical-base {}
+.optical-density {}
+.optical-highlight {}
+
+/* ------------------------------------------------------------------ */
+/* Member */
+/* ------------------------------------------------------------------ */
+
+.member-front {
+
+}
+
+.member-left {
+
+}
+
+.member-right {
+
+}
+
+.member-rear {
+
+}
+
 </style>
 
-<g class="prism prism-0">
-<polygon class="top" points="0.86,-106.36 -60.73,-104.99 -72.51,-101.40 -7.67,-99.03 63.03,-101.03 59.53,-104.69"/>
-<polygon class="bottom" points="54.57,129.18 57.17,159.68 -6.91,176.02 -65.83,156.62 -55.72,126.72 0.79,115.08"/>
-<polygon class="side0" points="0.79,115.08 -55.72,126.72 -60.73,-104.99 0.86,-106.36"/>
-<polygon class="side1" points="-55.72,126.72 -65.83,156.62 -72.51,-101.40 -60.73,-104.99"/>
-<polygon class="side2" points="-65.83,156.62 -6.91,176.02 -7.67,-99.03 -72.51,-101.40"/>
-<polygon class="side3" points="-6.91,176.02 57.17,159.68 63.03,-101.03 -7.67,-99.03"/>
-<polygon class="side4" points="57.17,159.68 54.57,129.18 59.53,-104.69 63.03,-101.03"/>
-<polygon class="side5" points="54.57,129.18 0.79,115.08 0.86,-106.36 59.53,-104.69"/>
+<g class="scene">
+<g class="neighbourhood">
+<g class="member member-front">
+<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="0.86,-106.36 -60.73,-104.99 -72.51,-101.40 -7.67,-99.03 63.03,-101.03 59.53,-104.69"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="54.57,129.18 57.17,159.68 -6.91,176.02 -65.83,156.62 -55.72,126.72 0.79,115.08"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="0.79,115.08 -55.72,126.72 -60.73,-104.99 0.86,-106.36"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-55.72,126.72 -65.83,156.62 -72.51,-101.40 -60.73,-104.99"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-65.83,156.62 -6.91,176.02 -7.67,-99.03 -72.51,-101.40"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-6.91,176.02 57.17,159.68 63.03,-101.03 -7.67,-99.03"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="57.17,159.68 54.57,129.18 59.53,-104.69 63.03,-101.03"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="54.57,129.18 0.79,115.08 0.86,-106.36 59.53,-104.69"/>
 </g>
-<g class="prism prism-1">
-<polygon class="top" points="92.26,-44.66 32.44,-47.34 -12.96,-41.33 0.42,-30.87 70.91,-27.05 116.58,-34.98"/>
-<polygon class="bottom" points="109.52,130.65 66.30,150.56 0.39,141.00 -12.23,114.59 30.71,99.26 87.19,106.10"/>
-<polygon class="side0" points="87.19,106.10 30.71,99.26 32.44,-47.34 92.26,-44.66"/>
-<polygon class="side1" points="30.71,99.26 -12.23,114.59 -12.96,-41.33 32.44,-47.34"/>
-<polygon class="side2" points="-12.23,114.59 0.39,141.00 0.42,-30.87 -12.96,-41.33"/>
-<polygon class="side3" points="0.39,141.00 66.30,150.56 70.91,-27.05 0.42,-30.87"/>
-<polygon class="side4" points="66.30,150.56 109.52,130.65 116.58,-34.98 70.91,-27.05"/>
-<polygon class="side5" points="109.52,130.65 87.19,106.10 92.26,-44.66 116.58,-34.98"/>
+<g class="member member-left">
+<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="92.26,-44.66 32.44,-47.34 -12.96,-41.33 0.42,-30.87 70.91,-27.05 116.58,-34.98"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="109.52,130.65 66.30,150.56 0.39,141.00 -12.23,114.59 30.71,99.26 87.19,106.10"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="87.19,106.10 30.71,99.26 32.44,-47.34 92.26,-44.66"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="30.71,99.26 -12.23,114.59 -12.96,-41.33 32.44,-47.34"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-12.23,114.59 0.39,141.00 0.42,-30.87 -12.96,-41.33"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="0.39,141.00 66.30,150.56 70.91,-27.05 0.42,-30.87"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="66.30,150.56 109.52,130.65 116.58,-34.98 70.91,-27.05"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="109.52,130.65 87.19,106.10 92.26,-44.66 116.58,-34.98"/>
 </g>
-<g class="prism prism-2">
-<polygon class="top" points="63.18,-21.08 32.66,-30.19 -23.09,-30.68 -57.80,-22.24 -33.36,-11.60 32.75,-10.92"/>
-<polygon class="bottom" points="31.10,125.06 -31.70,123.68 -55.16,102.26 -22.11,85.12 31.27,86.12 60.26,104.59"/>
-<polygon class="side0" points="60.26,104.59 31.27,86.12 32.66,-30.19 63.18,-21.08"/>
-<polygon class="side1" points="31.27,86.12 -22.11,85.12 -23.09,-30.68 32.66,-30.19"/>
-<polygon class="side2" points="-22.11,85.12 -55.16,102.26 -57.80,-22.24 -23.09,-30.68"/>
-<polygon class="side3" points="-55.16,102.26 -31.70,123.68 -33.36,-11.60 -57.80,-22.24"/>
-<polygon class="side4" points="-31.70,123.68 31.10,125.06 32.75,-10.92 -33.36,-11.60"/>
-<polygon class="side5" points="31.10,125.06 60.26,104.59 63.18,-21.08 32.75,-10.92"/>
+<g class="member member-right">
+<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="63.18,-21.08 32.66,-30.19 -23.09,-30.68 -57.80,-22.24 -33.36,-11.60 32.75,-10.92"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="31.10,125.06 -31.70,123.68 -55.16,102.26 -22.11,85.12 31.27,86.12 60.26,104.59"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="60.26,104.59 31.27,86.12 32.66,-30.19 63.18,-21.08"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="31.27,86.12 -22.11,85.12 -23.09,-30.68 32.66,-30.19"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-22.11,85.12 -55.16,102.26 -57.80,-22.24 -23.09,-30.68"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-55.16,102.26 -31.70,123.68 -33.36,-11.60 -57.80,-22.24"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-31.70,123.68 31.10,125.06 32.75,-10.92 -33.36,-11.60"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="31.10,125.06 60.26,104.59 63.18,-21.08 32.75,-10.92"/>
 </g>
-<g class="prism prism-3">
-<polygon class="top" points="-87.12,-70.40 -117.25,-63.79 -78.25,-57.57 -5.76,-59.42 14.88,-66.84 -26.48,-71.68"/>
-<polygon class="bottom" points="-24.86,98.17 13.90,115.14 -5.34,140.87 -72.44,147.22 -109.21,125.77 -81.68,102.68"/>
-<polygon class="side0" points="-81.68,102.68 -109.21,125.77 -117.25,-63.79 -87.12,-70.40"/>
-<polygon class="side1" points="-109.21,125.77 -72.44,147.22 -78.25,-57.57 -117.25,-63.79"/>
-<polygon class="side2" points="-72.44,147.22 -5.34,140.87 -5.76,-59.42 -78.25,-57.57"/>
-<polygon class="side3" points="-5.34,140.87 13.90,115.14 14.88,-66.84 -5.76,-59.42"/>
-<polygon class="side4" points="13.90,115.14 -24.86,98.17 -26.48,-71.68 14.88,-66.84"/>
-<polygon class="side5" points="-24.86,98.17 -81.68,102.68 -87.12,-70.40 -26.48,-71.68"/>
+<g class="member member-rear">
+<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="-87.12,-70.40 -117.25,-63.79 -78.25,-57.57 -5.76,-59.42 14.88,-66.84 -26.48,-71.68"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="-24.86,98.17 13.90,115.14 -5.34,140.87 -72.44,147.22 -109.21,125.77 -81.68,102.68"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-81.68,102.68 -109.21,125.77 -117.25,-63.79 -87.12,-70.40"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-109.21,125.77 -72.44,147.22 -78.25,-57.57 -117.25,-63.79"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-72.44,147.22 -5.34,140.87 -5.76,-59.42 -78.25,-57.57"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-5.34,140.87 13.90,115.14 14.88,-66.84 -5.76,-59.42"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="13.90,115.14 -24.86,98.17 -26.48,-71.68 14.88,-66.84"/>
+<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-24.86,98.17 -81.68,102.68 -87.12,-70.40 -26.48,-71.68"/>
+</g>
+</g>
 </g>
 </svg>

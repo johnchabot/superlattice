@@ -11,35 +11,155 @@ from superlattice.geometry.solid import Solid
 
 CSS = """
 <style>
+
+:root {
+
+    --scene-background: rgb(255 255 255);
+
+    --edge-energy: rgba(245,248,252,.32);
+    --edge-colour: rgb(64 64 64);
+    --edge-width: 1;
+    --edge-opacity: 1.0;
+
+    --transmission-top: rgba(255,255,255,0.045);
+    --transmission-side: rgba(255,255,255,0.022);
+    --material-bottom: rgba(255,255,255,0.010);
+
+
+
+}
+
+/* ------------------------------------------------------------------ */
+/* Scene */
+/* ------------------------------------------------------------------ */
+
 svg {
-    background: #ffffff;
+    background: var(--scene-background);
 }
 
-polygon {
-    fill: rgba(255,255,255,0.10);
-    stroke: #404040;
-    stroke-width: 1;
+/* ------------------------------------------------------------------ */
+/* Geometry */
+/* ------------------------------------------------------------------ */
+
+.face {
+
+    stroke: rgba(245,248,252,.32);
+
+    stroke-width: .85;
+    stroke: var(--edge-energy);
     vector-effect: non-scaling-stroke;
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
 }
 
-polygon.top {
-    fill: rgba(255,255,255,0.18);
+.face:hover {
+
+    stroke: rgba(255,255,255,.9);
+
 }
 
-polygon.bottom {
-    fill: rgba(255,255,255,0.03);
+/* ------------------------------------------------------------------ */
+/* Material */
+/* ------------------------------------------------------------------ */
+
+.face-top {
+
+    fill: var(--material-top);
+
 }
 
-polygon.side0,
-polygon.side1,
-polygon.side2,
-polygon.side3,
-polygon.side4,
-polygon.side5 {
-    fill: rgba(255,255,255,0.08);
+.face-side {
+
+    fill: rgba(255,255,255,.028);
+
 }
+
+.face-top {
+
+    fill: rgba(255,255,255,.040);
+
+}
+
+.face-bottom {
+
+    fill: rgba(255,255,255,.012);
+
+}
+
+/* ------------------------------------------------------------------ */
+/* Future placeholders */
+/* ------------------------------------------------------------------ */
+
+.scene {}
+.neighbourhood {}
+
+.member {}
+
+.render {}
+.render-fill {}
+.render-edge {}
+
+.material {}
+.material-transmission {}
+.material-density {}
+
+.optical {}
+.optical-base {}
+.optical-density {}
+.optical-highlight {}
+
+/* ------------------------------------------------------------------ */
+/* Member */
+/* ------------------------------------------------------------------ */
+
+.member-front {
+
+}
+
+.member-left {
+
+}
+
+.member-right {
+
+}
+
+.member-rear {
+
+}
+
 </style>
 """
+
+
+def face_classes(face_name: str) -> str:
+    """Return semantic CSS classes for a face."""
+
+    classes = [
+        "render",
+        "render-fill",
+        "face",
+        "material",
+        "material-transmission",
+        "optical",
+        "optical-base",
+    ]
+
+    if face_name == "top":
+
+        classes.append("face-top")
+
+    elif face_name == "bottom":
+
+        classes.append("face-bottom")
+
+    else:
+
+        classes.append("face-side")
+
+    return " ".join(classes)
 
 
 def render(
@@ -55,6 +175,8 @@ def render(
         f'width="{width}" height="{height}" '
         f'viewBox="{-width//2} {-height//2} {width} {height}">',
         CSS,
+        '<g class="scene">',
+        '<g class="neighbourhood">',
     ]
 
     if debug:
@@ -64,7 +186,7 @@ def render(
         y_axis = camera.project(Point3D(0, 200, 0))
         z_axis = camera.project(Point3D(0, 0, 200))
 
-        lines.append('<g id="debug-axes">')
+        lines.append('<g class="debug">')
 
         def draw_axis(a, b, colour):
             lines.append(
@@ -86,9 +208,22 @@ def render(
             f'fill="black"/>'
         )
 
+        lines.append("</g>")
+
+    roles = [
+        "member-front",
+        "member-left",
+        "member-right",
+        "member-rear",
+    ]
+
     for i, solid in enumerate(solids):
 
-        lines.append(f'<g class="prism prism-{i}">')
+        role = roles[i] if i < len(roles) else "member"
+
+        lines.append(
+        f'<g class="member {role}">'
+        )
 
         for face in solid.faces:
 
@@ -100,15 +235,14 @@ def render(
 
             lines.append(
                 f'<polygon '
-                f'class="{face.name}" '
+                f'class="{face_classes(face.name)}" '
                 f'points="{" ".join(pts)}"/>'
             )
 
         lines.append("</g>")
 
-    if debug:
-        lines.append("</g>")
-
+    lines.append("</g>")
+    lines.append("</g>")
     lines.append("</svg>")
 
     return "\n".join(lines)
