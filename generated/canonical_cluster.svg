@@ -1,34 +1,79 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="-300 -300 600 600">
-<polygon points="54.35,43.48 27.17,-3.59 -27.17,-3.59 -54.35,43.48 -27.17,90.54 27.17,90.54" fill="none" stroke="black"/>
-<polygon points="50.00,166.60 -50.00,166.60 -100.00,80.00 -50.00,-6.60 50.00,-6.60 100.00,80.00" fill="none" stroke="black"/>
-<polygon points="100.00,80.00 50.00,-6.60 27.17,-3.59 54.35,43.48" fill="none" stroke="black"/>
-<polygon points="50.00,-6.60 -50.00,-6.60 -27.17,-3.59 27.17,-3.59" fill="none" stroke="black"/>
-<polygon points="-50.00,-6.60 -100.00,80.00 -54.35,43.48 -27.17,-3.59" fill="none" stroke="black"/>
-<polygon points="-100.00,80.00 -50.00,166.60 -27.17,90.54 -54.35,43.48" fill="none" stroke="black"/>
-<polygon points="-50.00,166.60 50.00,166.60 27.17,90.54 -27.17,90.54" fill="none" stroke="black"/>
-<polygon points="50.00,166.60 100.00,80.00 54.35,43.48 27.17,90.54" fill="none" stroke="black"/>
-<polygon points="11.90,-23.81 -17.86,-75.36 -77.38,-75.36 -107.14,-23.81 -77.38,27.74 -17.86,27.74" fill="none" stroke="black"/>
-<polygon points="-30.00,46.60 -130.00,46.60 -180.00,-40.00 -130.00,-126.60 -30.00,-126.60 20.00,-40.00" fill="none" stroke="black"/>
-<polygon points="20.00,-40.00 -30.00,-126.60 -17.86,-75.36 11.90,-23.81" fill="none" stroke="black"/>
-<polygon points="-30.00,-126.60 -130.00,-126.60 -77.38,-75.36 -17.86,-75.36" fill="none" stroke="black"/>
-<polygon points="-130.00,-126.60 -180.00,-40.00 -107.14,-23.81 -77.38,-75.36" fill="none" stroke="black"/>
-<polygon points="-180.00,-40.00 -130.00,46.60 -77.38,27.74 -107.14,-23.81" fill="none" stroke="black"/>
-<polygon points="-130.00,46.60 -30.00,46.60 -17.86,27.74 -77.38,27.74" fill="none" stroke="black"/>
-<polygon points="-30.00,46.60 20.00,-40.00 11.90,-23.81 -17.86,27.74" fill="none" stroke="black"/>
-<polygon points="112.50,-25.00 81.25,-79.13 18.75,-79.13 -12.50,-25.00 18.75,29.13 81.25,29.13" fill="none" stroke="black"/>
-<polygon points="130.00,46.60 30.00,46.60 -20.00,-40.00 30.00,-126.60 130.00,-126.60 180.00,-40.00" fill="none" stroke="black"/>
-<polygon points="180.00,-40.00 130.00,-126.60 81.25,-79.13 112.50,-25.00" fill="none" stroke="black"/>
-<polygon points="130.00,-126.60 30.00,-126.60 18.75,-79.13 81.25,-79.13" fill="none" stroke="black"/>
-<polygon points="30.00,-126.60 -20.00,-40.00 -12.50,-25.00 18.75,-79.13" fill="none" stroke="black"/>
-<polygon points="-20.00,-40.00 30.00,46.60 18.75,29.13 -12.50,-25.00" fill="none" stroke="black"/>
-<polygon points="30.00,46.60 130.00,46.60 81.25,29.13 18.75,29.13" fill="none" stroke="black"/>
-<polygon points="130.00,46.60 180.00,-40.00 112.50,-25.00 81.25,29.13" fill="none" stroke="black"/>
-<polygon points="67.57,-81.08 33.78,-139.60 -33.78,-139.60 -67.57,-81.08 -33.78,-22.57 33.78,-22.57" fill="none" stroke="black"/>
-<polygon points="50.00,-33.40 -50.00,-33.40 -100.00,-120.00 -50.00,-206.60 50.00,-206.60 100.00,-120.00" fill="none" stroke="black"/>
-<polygon points="100.00,-120.00 50.00,-206.60 33.78,-139.60 67.57,-81.08" fill="none" stroke="black"/>
-<polygon points="50.00,-206.60 -50.00,-206.60 -33.78,-139.60 33.78,-139.60" fill="none" stroke="black"/>
-<polygon points="-50.00,-206.60 -100.00,-120.00 -67.57,-81.08 -33.78,-139.60" fill="none" stroke="black"/>
-<polygon points="-100.00,-120.00 -50.00,-33.40 -33.78,-22.57 -67.57,-81.08" fill="none" stroke="black"/>
-<polygon points="-50.00,-33.40 50.00,-33.40 33.78,-22.57 -33.78,-22.57" fill="none" stroke="black"/>
-<polygon points="50.00,-33.40 100.00,-120.00 67.57,-81.08 33.78,-22.57" fill="none" stroke="black"/>
+
+<style>
+svg {
+    background: #ffffff;
+}
+
+polygon {
+    fill: rgba(255,255,255,0.10);
+    stroke: #404040;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+}
+
+polygon.top {
+    fill: rgba(255,255,255,0.18);
+}
+
+polygon.bottom {
+    fill: rgba(255,255,255,0.03);
+}
+
+polygon.side0,
+polygon.side1,
+polygon.side2,
+polygon.side3,
+polygon.side4,
+polygon.side5 {
+    fill: rgba(255,255,255,0.08);
+}
+</style>
+
+<g id="debug-axes">
+<line x1="0.00" y1="-0.00" x2="200.00" y2="-0.00" stroke="red" stroke-width="2"/>
+<line x1="0.00" y1="-0.00" x2="0.00" y2="-200.00" stroke="green" stroke-width="2"/>
+<line x1="0.00" y1="-0.00" x2="0.00" y2="-0.00" stroke="blue" stroke-width="2"/>
+<circle cx="0.00" cy="-0.00" r="4" fill="black"/>
+<g class="prism prism-0">
+<polygon class="top" points="38.43,5.05 -14.07,-9.02 -52.50,29.41 -38.43,81.91 14.07,95.97 52.50,57.54"/>
+<polygon class="bottom" points="96.59,105.88 25.88,176.59 -70.71,150.71 -96.59,54.12 -25.88,-16.59 70.71,9.29"/>
+<polygon class="side0" points="70.71,9.29 -25.88,-16.59 -14.07,-9.02 38.43,5.05"/>
+<polygon class="side1" points="-25.88,-16.59 -96.59,54.12 -52.50,29.41 -14.07,-9.02"/>
+<polygon class="side2" points="-96.59,54.12 -70.71,150.71 -38.43,81.91 -52.50,29.41"/>
+<polygon class="side3" points="-70.71,150.71 25.88,176.59 14.07,95.97 -38.43,81.91"/>
+<polygon class="side4" points="25.88,176.59 96.59,105.88 52.50,57.54 14.07,95.97"/>
+<polygon class="side5" points="96.59,105.88 70.71,9.29 38.43,5.05 52.50,57.54"/>
+</g>
+<g class="prism prism-1">
+<polygon class="top" points="0.42,-36.14 -57.07,-51.54 -99.16,-9.45 -83.76,48.04 -26.26,63.45 15.83,21.36"/>
+<polygon class="bottom" points="26.59,35.88 -44.12,106.59 -140.71,80.71 -166.59,-15.88 -95.88,-86.59 0.71,-60.71"/>
+<polygon class="side0" points="0.71,-60.71 -95.88,-86.59 -57.07,-51.54 0.42,-36.14"/>
+<polygon class="side1" points="-95.88,-86.59 -166.59,-15.88 -99.16,-9.45 -57.07,-51.54"/>
+<polygon class="side2" points="-166.59,-15.88 -140.71,80.71 -83.76,48.04 -99.16,-9.45"/>
+<polygon class="side3" points="-140.71,80.71 -44.12,106.59 -26.26,63.45 -83.76,48.04"/>
+<polygon class="side4" points="-44.12,106.59 26.59,35.88 15.83,21.36 -26.26,63.45"/>
+<polygon class="side5" points="26.59,35.88 0.71,-60.71 0.42,-36.14 15.83,21.36"/>
+</g>
+<g class="prism prism-2">
+<polygon class="top" points="87.94,-37.94 27.57,-54.12 -16.62,-9.93 -0.44,50.44 59.93,66.62 104.12,22.43"/>
+<polygon class="bottom" points="166.59,35.88 95.88,106.59 -0.71,80.71 -26.59,-15.88 44.12,-86.59 140.71,-60.71"/>
+<polygon class="side0" points="140.71,-60.71 44.12,-86.59 27.57,-54.12 87.94,-37.94"/>
+<polygon class="side1" points="44.12,-86.59 -26.59,-15.88 -16.62,-9.93 27.57,-54.12"/>
+<polygon class="side2" points="-26.59,-15.88 -0.71,80.71 -0.44,50.44 -16.62,-9.93"/>
+<polygon class="side3" points="-0.71,80.71 95.88,106.59 59.93,66.62 -0.44,50.44"/>
+<polygon class="side4" points="95.88,106.59 166.59,35.88 104.12,22.43 59.93,66.62"/>
+<polygon class="side5" points="166.59,35.88 140.71,-60.71 87.94,-37.94 104.12,22.43"/>
+</g>
+<g class="prism prism-3">
+<polygon class="top" points="47.78,-95.07 -17.49,-112.56 -65.27,-64.79 -47.78,0.48 17.49,17.97 65.27,-29.81"/>
+<polygon class="bottom" points="96.59,-44.12 25.88,26.59 -70.71,0.71 -96.59,-95.88 -25.88,-166.59 70.71,-140.71"/>
+<polygon class="side0" points="70.71,-140.71 -25.88,-166.59 -17.49,-112.56 47.78,-95.07"/>
+<polygon class="side1" points="-25.88,-166.59 -96.59,-95.88 -65.27,-64.79 -17.49,-112.56"/>
+<polygon class="side2" points="-96.59,-95.88 -70.71,0.71 -47.78,0.48 -65.27,-64.79"/>
+<polygon class="side3" points="-70.71,0.71 25.88,26.59 17.49,17.97 -47.78,0.48"/>
+<polygon class="side4" points="25.88,26.59 96.59,-44.12 65.27,-29.81 17.49,17.97"/>
+<polygon class="side5" points="96.59,-44.12 70.71,-140.71 47.78,-95.07 65.27,-29.81"/>
+</g>
+</g>
 </svg>

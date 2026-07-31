@@ -1,24 +1,36 @@
-HexagonalPrism(
-    center=Point3D(0, 0, 0),
-    radius=100,
-    height=420,
+from pathlib import Path
+
+from composition.canonical import (
+    PRISM_RADIUS,
+    PRISM_ROTATION,
+    SILOS,
 )
 
+from superlattice.camera.camera import Camera
+from superlattice.geometry.hexagonal_prism import HexagonalPrism
+from superlattice.renderer.svg import render
 
-HexagonalPrism(
-    center=Point3D(-70, -50, 0),
-    radius=100,
-    height=340,
+
+camera = Camera()
+
+solids = [
+    HexagonalPrism(
+        center=spec.center,
+        radius=PRISM_RADIUS,
+        height=spec.height,
+        rotation=PRISM_ROTATION,
+    )
+    for spec in SILOS
+]
+
+svg = render(
+    solids,
+    camera,
+    debug=True,
 )
 
-HexagonalPrism(
-    center=Point3D(70, -50, 0),
-    radius=100,
-    height=300,
-)
+Path("generated").mkdir(exist_ok=True)
 
-HexagonalPrism(
-    center=Point3D(0, -110, 0),
-    radius=100,
-    height=250,
-)
+Path("generated/canonical_cluster.svg").write_text(svg)
+
+print("Generated generated/canonical_cluster.svg")
