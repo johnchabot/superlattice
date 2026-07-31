@@ -4,8 +4,9 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
+from .edge import Edge
+from .face import Face
 from .point import Point3D
-from .polygon import Polygon
 
 
 class Solid(ABC):
@@ -14,9 +15,17 @@ class Solid(ABC):
     @property
     @abstractmethod
     def vertices(self) -> tuple[Point3D, ...]:
+        """All vertices of the solid."""
         ...
 
     @property
     @abstractmethod
-    def faces(self) -> tuple[Polygon, ...]:
+    def edges(self) -> tuple[Edge, ...]:
+        """All edges of the solid."""
+        ...
+
+    @property
+    @abstractmethod
+    def faces(self) -> tuple[Face, ...]:
+        """All faces of the solid."""
         ...
