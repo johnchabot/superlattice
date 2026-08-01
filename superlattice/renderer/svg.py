@@ -434,20 +434,24 @@ def render(
 
             classes = face_classes(face.name)
 
-            fill = ""
+            for face, pts in projected_faces:
 
-            if face.name.startswith("side"):
+                classes = face_classes(face.name)
 
-                fill = (
-                    ' style="fill:url(#glass-face);"'
+                fill = ""
+
+                if face.name.startswith("side"):
+
+                    fill = (
+                        ' style="fill:url(#glass-face);"'
+                    )
+
+                lines.append(
+                    f'<polygon '
+                    f'class="{classes}"'
+                    f'{fill} '
+                    f'points="{" ".join(pts)}"/>'
                 )
-
-            lines.append(
-                f'<polygon '
-                f'class="{classes}"'
-                f'{fill} '
-                f'points="{" ".join(pts)}"/>'
-            )
 
             #
             # Specular highlight
