@@ -4,18 +4,26 @@
 
 :root {
 
-    --scene-background: rgb(255 255 255);
 
-    --edge-energy: rgba(245,248,252,.32);
-    --edge-colour: rgb(64 64 64);
-    --edge-width: 1;
-    --edge-opacity: 1.0;
+--scene-background: rgb(236 239 244);
 
-    --transmission-top: rgba(255,255,255,0.045);
-    --transmission-side: rgba(255,255,255,0.022);
-    --material-bottom: rgba(255,255,255,0.010);
+    /* Transmission */
 
+    --transmission-top: rgba(255,255,255,.028);
+    --transmission-side: rgba(255,255,255,.014);
+    --transmission-bottom: rgba(255,255,255,.006);
 
+    /* Edge */
+
+    --edge-energy: rgb(92,96,106);
+    --edge-width: .85;
+
+    /* Rim */
+
+    --rim-energy: rgba(255,255,255,.18);
+    --rim-width: .30;
+
+    --member-bias: 1.0;
 
 }
 
@@ -33,16 +41,38 @@ svg {
 
 .face {
 
-    stroke: rgba(245,248,252,.32);
-
-    stroke-width: .85;
-    stroke: var(--edge-energy);
     vector-effect: non-scaling-stroke;
 
     stroke-linejoin: round;
     stroke-linecap: round;
 
 }
+
+
+.geometry {
+
+}
+
+.transmission {
+
+}
+
+
+.render-edge {
+
+    fill: none;
+
+    stroke: var(--edge-energy);
+
+    stroke-width: var(--edge-width);
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
+    vector-effect: non-scaling-stroke;
+
+}
+
 
 .face:hover {
 
@@ -54,29 +84,7 @@ svg {
 /* Material */
 /* ------------------------------------------------------------------ */
 
-.face-top {
 
-    fill: var(--material-top);
-
-}
-
-.face-side {
-
-    fill: rgba(255,255,255,.028);
-
-}
-
-.face-top {
-
-    fill: rgba(255,255,255,.040);
-
-}
-
-.face-bottom {
-
-    fill: rgba(255,255,255,.012);
-
-}
 
 /* ------------------------------------------------------------------ */
 /* Future placeholders */
@@ -89,7 +97,37 @@ svg {
 
 .render {}
 .render-fill {}
+
+.render-fill.face-top {
+
+    fill: var(--transmission-top);
+
+}
+
+
+
+.render-fill.face-bottom {
+
+    fill: var(--transmission-bottom);
+
+}
+
 .render-edge {}
+
+.render-rim {
+
+    fill: none;
+
+    stroke: url(#edge-rim);
+
+    stroke-width: var(--rim-width);
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
+    vector-effect: non-scaling-stroke;
+
+}
 
 .material {}
 .material-transmission {}
@@ -98,7 +136,22 @@ svg {
 .optical {}
 .optical-base {}
 .optical-density {}
-.optical-highlight {}
+.optical-highlight {
+
+    fill: none;
+
+    stroke: rgba(255,255,255,.28);
+
+    stroke-width: .18;
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
+    vector-effect: non-scaling-stroke;
+
+    mix-blend-mode: screen;
+
+}
 
 /* ------------------------------------------------------------------ */
 /* Member */
@@ -106,63 +159,212 @@ svg {
 
 .member-front {
 
+    --transmission-scale: 1.00;
+
 }
 
 .member-left {
+
+    --transmission-scale: 0.98;
 
 }
 
 .member-right {
 
+    --transmission-scale: 1.02;
+
 }
 
 .member-rear {
 
+    --transmission-scale: 1.05;
+
 }
+
+
+.edge-major {
+
+    stroke-width: 1.10;
+
+}
+
+.edge-normal {
+
+    stroke-width: .85;
+
+}
+
+.edge-minor {
+
+    stroke-width: .55;
+
+    opacity: .55;
+
+}
+
 
 </style>
 
+
+<defs>
+
+    <linearGradient id="edge-rim"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%">
+
+        <stop offset="0%" stop-color="white" stop-opacity="0.00"/>
+
+        <stop offset="30%" stop-color="white" stop-opacity="0.18"/>
+
+        <stop offset="70%" stop-color="white" stop-opacity="0.18"/>
+
+        <stop offset="100%" stop-color="white" stop-opacity="0.00"/>
+
+    </linearGradient>
+
+
+
+</defs>
+
 <g class="scene">
 <g class="neighbourhood">
-<g class="member member-front">
-<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="0.86,-106.36 -60.73,-104.99 -72.51,-101.40 -7.67,-99.03 63.03,-101.03 59.53,-104.69"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="54.57,129.18 57.17,159.68 -6.91,176.02 -65.83,156.62 -55.72,126.72 0.79,115.08"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="0.79,115.08 -55.72,126.72 -60.73,-104.99 0.86,-106.36"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-55.72,126.72 -65.83,156.62 -72.51,-101.40 -60.73,-104.99"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-65.83,156.62 -6.91,176.02 -7.67,-99.03 -72.51,-101.40"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-6.91,176.02 57.17,159.68 63.03,-101.03 -7.67,-99.03"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="57.17,159.68 54.57,129.18 59.53,-104.69 63.03,-101.03"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="54.57,129.18 0.79,115.08 0.86,-106.36 59.53,-104.69"/>
+<g class="member member-front" style="--member-transmission:1.0;">
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top" points="0.86,-106.36 -60.73,-104.99 -72.51,-101.40 -7.67,-99.03 63.03,-101.03 59.53,-104.69"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top optical-highlight" points="0.86,-106.36 -60.73,-104.99 -72.51,-101.40 -7.67,-99.03 63.03,-101.03 59.53,-104.69"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-top" points="0.86,-106.36 -60.73,-104.99 -72.51,-101.40 -7.67,-99.03 63.03,-101.03 59.53,-104.69"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-top edge-major" points="0.86,-106.36 -60.73,-104.99 -72.51,-101.40 -7.67,-99.03 63.03,-101.03 59.53,-104.69"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom" points="54.57,129.18 57.17,159.68 -6.91,176.02 -65.83,156.62 -55.72,126.72 0.79,115.08"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom optical-highlight" points="54.57,129.18 57.17,159.68 -6.91,176.02 -65.83,156.62 -55.72,126.72 0.79,115.08"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-bottom" points="54.57,129.18 57.17,159.68 -6.91,176.02 -65.83,156.62 -55.72,126.72 0.79,115.08"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-bottom edge-minor" points="54.57,129.18 57.17,159.68 -6.91,176.02 -65.83,156.62 -55.72,126.72 0.79,115.08"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="0.79,115.08 -55.72,126.72 -60.73,-104.99 0.86,-106.36"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="0.79,115.08 -55.72,126.72 -60.73,-104.99 0.86,-106.36"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="0.79,115.08 -55.72,126.72 -60.73,-104.99 0.86,-106.36"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="0.79,115.08 -55.72,126.72 -60.73,-104.99 0.86,-106.36"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-55.72,126.72 -65.83,156.62 -72.51,-101.40 -60.73,-104.99"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-55.72,126.72 -65.83,156.62 -72.51,-101.40 -60.73,-104.99"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-55.72,126.72 -65.83,156.62 -72.51,-101.40 -60.73,-104.99"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-55.72,126.72 -65.83,156.62 -72.51,-101.40 -60.73,-104.99"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-65.83,156.62 -6.91,176.02 -7.67,-99.03 -72.51,-101.40"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-65.83,156.62 -6.91,176.02 -7.67,-99.03 -72.51,-101.40"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-65.83,156.62 -6.91,176.02 -7.67,-99.03 -72.51,-101.40"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-65.83,156.62 -6.91,176.02 -7.67,-99.03 -72.51,-101.40"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-6.91,176.02 57.17,159.68 63.03,-101.03 -7.67,-99.03"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-6.91,176.02 57.17,159.68 63.03,-101.03 -7.67,-99.03"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-6.91,176.02 57.17,159.68 63.03,-101.03 -7.67,-99.03"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-6.91,176.02 57.17,159.68 63.03,-101.03 -7.67,-99.03"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="57.17,159.68 54.57,129.18 59.53,-104.69 63.03,-101.03"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="57.17,159.68 54.57,129.18 59.53,-104.69 63.03,-101.03"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="57.17,159.68 54.57,129.18 59.53,-104.69 63.03,-101.03"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="57.17,159.68 54.57,129.18 59.53,-104.69 63.03,-101.03"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="54.57,129.18 0.79,115.08 0.86,-106.36 59.53,-104.69"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="54.57,129.18 0.79,115.08 0.86,-106.36 59.53,-104.69"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="54.57,129.18 0.79,115.08 0.86,-106.36 59.53,-104.69"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="54.57,129.18 0.79,115.08 0.86,-106.36 59.53,-104.69"/>
 </g>
-<g class="member member-left">
-<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="92.26,-44.66 32.44,-47.34 -12.96,-41.33 0.42,-30.87 70.91,-27.05 116.58,-34.98"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="109.52,130.65 66.30,150.56 0.39,141.00 -12.23,114.59 30.71,99.26 87.19,106.10"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="87.19,106.10 30.71,99.26 32.44,-47.34 92.26,-44.66"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="30.71,99.26 -12.23,114.59 -12.96,-41.33 32.44,-47.34"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-12.23,114.59 0.39,141.00 0.42,-30.87 -12.96,-41.33"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="0.39,141.00 66.30,150.56 70.91,-27.05 0.42,-30.87"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="66.30,150.56 109.52,130.65 116.58,-34.98 70.91,-27.05"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="109.52,130.65 87.19,106.10 92.26,-44.66 116.58,-34.98"/>
+<g class="member member-left" style="--member-transmission:1.0;">
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top" points="92.26,-44.66 32.44,-47.34 -12.96,-41.33 0.42,-30.87 70.91,-27.05 116.58,-34.98"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top optical-highlight" points="92.26,-44.66 32.44,-47.34 -12.96,-41.33 0.42,-30.87 70.91,-27.05 116.58,-34.98"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-top" points="92.26,-44.66 32.44,-47.34 -12.96,-41.33 0.42,-30.87 70.91,-27.05 116.58,-34.98"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-top edge-major" points="92.26,-44.66 32.44,-47.34 -12.96,-41.33 0.42,-30.87 70.91,-27.05 116.58,-34.98"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom" points="109.52,130.65 66.30,150.56 0.39,141.00 -12.23,114.59 30.71,99.26 87.19,106.10"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom optical-highlight" points="109.52,130.65 66.30,150.56 0.39,141.00 -12.23,114.59 30.71,99.26 87.19,106.10"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-bottom" points="109.52,130.65 66.30,150.56 0.39,141.00 -12.23,114.59 30.71,99.26 87.19,106.10"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-bottom edge-minor" points="109.52,130.65 66.30,150.56 0.39,141.00 -12.23,114.59 30.71,99.26 87.19,106.10"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="87.19,106.10 30.71,99.26 32.44,-47.34 92.26,-44.66"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="87.19,106.10 30.71,99.26 32.44,-47.34 92.26,-44.66"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="87.19,106.10 30.71,99.26 32.44,-47.34 92.26,-44.66"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="87.19,106.10 30.71,99.26 32.44,-47.34 92.26,-44.66"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="30.71,99.26 -12.23,114.59 -12.96,-41.33 32.44,-47.34"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="30.71,99.26 -12.23,114.59 -12.96,-41.33 32.44,-47.34"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="30.71,99.26 -12.23,114.59 -12.96,-41.33 32.44,-47.34"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="30.71,99.26 -12.23,114.59 -12.96,-41.33 32.44,-47.34"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-12.23,114.59 0.39,141.00 0.42,-30.87 -12.96,-41.33"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-12.23,114.59 0.39,141.00 0.42,-30.87 -12.96,-41.33"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-12.23,114.59 0.39,141.00 0.42,-30.87 -12.96,-41.33"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-12.23,114.59 0.39,141.00 0.42,-30.87 -12.96,-41.33"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="0.39,141.00 66.30,150.56 70.91,-27.05 0.42,-30.87"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="0.39,141.00 66.30,150.56 70.91,-27.05 0.42,-30.87"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="0.39,141.00 66.30,150.56 70.91,-27.05 0.42,-30.87"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="0.39,141.00 66.30,150.56 70.91,-27.05 0.42,-30.87"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="66.30,150.56 109.52,130.65 116.58,-34.98 70.91,-27.05"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="66.30,150.56 109.52,130.65 116.58,-34.98 70.91,-27.05"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="66.30,150.56 109.52,130.65 116.58,-34.98 70.91,-27.05"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="66.30,150.56 109.52,130.65 116.58,-34.98 70.91,-27.05"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="109.52,130.65 87.19,106.10 92.26,-44.66 116.58,-34.98"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="109.52,130.65 87.19,106.10 92.26,-44.66 116.58,-34.98"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="109.52,130.65 87.19,106.10 92.26,-44.66 116.58,-34.98"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="109.52,130.65 87.19,106.10 92.26,-44.66 116.58,-34.98"/>
 </g>
-<g class="member member-right">
-<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="63.18,-21.08 32.66,-30.19 -23.09,-30.68 -57.80,-22.24 -33.36,-11.60 32.75,-10.92"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="31.10,125.06 -31.70,123.68 -55.16,102.26 -22.11,85.12 31.27,86.12 60.26,104.59"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="60.26,104.59 31.27,86.12 32.66,-30.19 63.18,-21.08"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="31.27,86.12 -22.11,85.12 -23.09,-30.68 32.66,-30.19"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-22.11,85.12 -55.16,102.26 -57.80,-22.24 -23.09,-30.68"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-55.16,102.26 -31.70,123.68 -33.36,-11.60 -57.80,-22.24"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-31.70,123.68 31.10,125.06 32.75,-10.92 -33.36,-11.60"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="31.10,125.06 60.26,104.59 63.18,-21.08 32.75,-10.92"/>
+<g class="member member-right" style="--member-transmission:1.0;">
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top" points="63.18,-21.08 32.66,-30.19 -23.09,-30.68 -57.80,-22.24 -33.36,-11.60 32.75,-10.92"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top optical-highlight" points="63.18,-21.08 32.66,-30.19 -23.09,-30.68 -57.80,-22.24 -33.36,-11.60 32.75,-10.92"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-top" points="63.18,-21.08 32.66,-30.19 -23.09,-30.68 -57.80,-22.24 -33.36,-11.60 32.75,-10.92"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-top edge-major" points="63.18,-21.08 32.66,-30.19 -23.09,-30.68 -57.80,-22.24 -33.36,-11.60 32.75,-10.92"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom" points="31.10,125.06 -31.70,123.68 -55.16,102.26 -22.11,85.12 31.27,86.12 60.26,104.59"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom optical-highlight" points="31.10,125.06 -31.70,123.68 -55.16,102.26 -22.11,85.12 31.27,86.12 60.26,104.59"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-bottom" points="31.10,125.06 -31.70,123.68 -55.16,102.26 -22.11,85.12 31.27,86.12 60.26,104.59"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-bottom edge-minor" points="31.10,125.06 -31.70,123.68 -55.16,102.26 -22.11,85.12 31.27,86.12 60.26,104.59"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="60.26,104.59 31.27,86.12 32.66,-30.19 63.18,-21.08"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="60.26,104.59 31.27,86.12 32.66,-30.19 63.18,-21.08"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="60.26,104.59 31.27,86.12 32.66,-30.19 63.18,-21.08"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="60.26,104.59 31.27,86.12 32.66,-30.19 63.18,-21.08"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="31.27,86.12 -22.11,85.12 -23.09,-30.68 32.66,-30.19"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="31.27,86.12 -22.11,85.12 -23.09,-30.68 32.66,-30.19"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="31.27,86.12 -22.11,85.12 -23.09,-30.68 32.66,-30.19"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="31.27,86.12 -22.11,85.12 -23.09,-30.68 32.66,-30.19"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-22.11,85.12 -55.16,102.26 -57.80,-22.24 -23.09,-30.68"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-22.11,85.12 -55.16,102.26 -57.80,-22.24 -23.09,-30.68"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-22.11,85.12 -55.16,102.26 -57.80,-22.24 -23.09,-30.68"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-22.11,85.12 -55.16,102.26 -57.80,-22.24 -23.09,-30.68"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-55.16,102.26 -31.70,123.68 -33.36,-11.60 -57.80,-22.24"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-55.16,102.26 -31.70,123.68 -33.36,-11.60 -57.80,-22.24"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-55.16,102.26 -31.70,123.68 -33.36,-11.60 -57.80,-22.24"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-55.16,102.26 -31.70,123.68 -33.36,-11.60 -57.80,-22.24"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-31.70,123.68 31.10,125.06 32.75,-10.92 -33.36,-11.60"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-31.70,123.68 31.10,125.06 32.75,-10.92 -33.36,-11.60"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-31.70,123.68 31.10,125.06 32.75,-10.92 -33.36,-11.60"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-31.70,123.68 31.10,125.06 32.75,-10.92 -33.36,-11.60"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="31.10,125.06 60.26,104.59 63.18,-21.08 32.75,-10.92"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="31.10,125.06 60.26,104.59 63.18,-21.08 32.75,-10.92"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="31.10,125.06 60.26,104.59 63.18,-21.08 32.75,-10.92"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="31.10,125.06 60.26,104.59 63.18,-21.08 32.75,-10.92"/>
 </g>
-<g class="member member-rear">
-<polygon class="render render-fill face material material-transmission optical optical-base face-top" points="-87.12,-70.40 -117.25,-63.79 -78.25,-57.57 -5.76,-59.42 14.88,-66.84 -26.48,-71.68"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-bottom" points="-24.86,98.17 13.90,115.14 -5.34,140.87 -72.44,147.22 -109.21,125.77 -81.68,102.68"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-81.68,102.68 -109.21,125.77 -117.25,-63.79 -87.12,-70.40"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-109.21,125.77 -72.44,147.22 -78.25,-57.57 -117.25,-63.79"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-72.44,147.22 -5.34,140.87 -5.76,-59.42 -78.25,-57.57"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-5.34,140.87 13.90,115.14 14.88,-66.84 -5.76,-59.42"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="13.90,115.14 -24.86,98.17 -26.48,-71.68 14.88,-66.84"/>
-<polygon class="render render-fill face material material-transmission optical optical-base face-side" points="-24.86,98.17 -81.68,102.68 -87.12,-70.40 -26.48,-71.68"/>
+<g class="member member-rear" style="--member-transmission:1.0;">
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top" points="-87.12,-70.40 -117.25,-63.79 -78.25,-57.57 -5.76,-59.42 14.88,-66.84 -26.48,-71.68"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-top optical-highlight" points="-87.12,-70.40 -117.25,-63.79 -78.25,-57.57 -5.76,-59.42 14.88,-66.84 -26.48,-71.68"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-top" points="-87.12,-70.40 -117.25,-63.79 -78.25,-57.57 -5.76,-59.42 14.88,-66.84 -26.48,-71.68"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-top edge-major" points="-87.12,-70.40 -117.25,-63.79 -78.25,-57.57 -5.76,-59.42 14.88,-66.84 -26.48,-71.68"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom" points="-24.86,98.17 13.90,115.14 -5.34,140.87 -72.44,147.22 -109.21,125.77 -81.68,102.68"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-bottom optical-highlight" points="-24.86,98.17 13.90,115.14 -5.34,140.87 -72.44,147.22 -109.21,125.77 -81.68,102.68"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-bottom" points="-24.86,98.17 13.90,115.14 -5.34,140.87 -72.44,147.22 -109.21,125.77 -81.68,102.68"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-bottom edge-minor" points="-24.86,98.17 13.90,115.14 -5.34,140.87 -72.44,147.22 -109.21,125.77 -81.68,102.68"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-81.68,102.68 -109.21,125.77 -117.25,-63.79 -87.12,-70.40"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-81.68,102.68 -109.21,125.77 -117.25,-63.79 -87.12,-70.40"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-81.68,102.68 -109.21,125.77 -117.25,-63.79 -87.12,-70.40"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-81.68,102.68 -109.21,125.77 -117.25,-63.79 -87.12,-70.40"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-109.21,125.77 -72.44,147.22 -78.25,-57.57 -117.25,-63.79"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-109.21,125.77 -72.44,147.22 -78.25,-57.57 -117.25,-63.79"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-109.21,125.77 -72.44,147.22 -78.25,-57.57 -117.25,-63.79"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-109.21,125.77 -72.44,147.22 -78.25,-57.57 -117.25,-63.79"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-72.44,147.22 -5.34,140.87 -5.76,-59.42 -78.25,-57.57"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-72.44,147.22 -5.34,140.87 -5.76,-59.42 -78.25,-57.57"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-72.44,147.22 -5.34,140.87 -5.76,-59.42 -78.25,-57.57"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-72.44,147.22 -5.34,140.87 -5.76,-59.42 -78.25,-57.57"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-5.34,140.87 13.90,115.14 14.88,-66.84 -5.76,-59.42"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-5.34,140.87 13.90,115.14 14.88,-66.84 -5.76,-59.42"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-5.34,140.87 13.90,115.14 14.88,-66.84 -5.76,-59.42"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-5.34,140.87 13.90,115.14 14.88,-66.84 -5.76,-59.42"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="13.90,115.14 -24.86,98.17 -26.48,-71.68 14.88,-66.84"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="13.90,115.14 -24.86,98.17 -26.48,-71.68 14.88,-66.84"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="13.90,115.14 -24.86,98.17 -26.48,-71.68 14.88,-66.84"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="13.90,115.14 -24.86,98.17 -26.48,-71.68 14.88,-66.84"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side" style="fill:url(#glass-face);" points="-24.86,98.17 -81.68,102.68 -87.12,-70.40 -26.48,-71.68"/>
+<polygon class="render render-fill geometry face transmission material material-transmission optical optical-base face-side optical-highlight" points="-24.86,98.17 -81.68,102.68 -87.12,-70.40 -26.48,-71.68"/>
+<polygon class="render render-rim geometry face transmission material material-transmission optical optical-base face-side" points="-24.86,98.17 -81.68,102.68 -87.12,-70.40 -26.48,-71.68"/>
+<polygon class="render render-edge geometry face transmission material material-transmission optical optical-base face-side edge-normal" points="-24.86,98.17 -81.68,102.68 -87.12,-70.40 -26.48,-71.68"/>
 </g>
 </g>
 </g>

@@ -14,18 +14,26 @@ CSS = """
 
 :root {
 
-    --scene-background: rgb(255 255 255);
 
-    --edge-energy: rgba(245,248,252,.32);
-    --edge-colour: rgb(64 64 64);
-    --edge-width: 1;
-    --edge-opacity: 1.0;
+--scene-background: rgb(236 239 244);
 
-    --transmission-top: rgba(255,255,255,0.045);
-    --transmission-side: rgba(255,255,255,0.022);
-    --material-bottom: rgba(255,255,255,0.010);
+    /* Transmission */
 
+    --transmission-top: rgba(255,255,255,.028);
+    --transmission-side: rgba(255,255,255,.014);
+    --transmission-bottom: rgba(255,255,255,.006);
 
+    /* Edge */
+
+    --edge-energy: rgb(92,96,106);
+    --edge-width: .85;
+
+    /* Rim */
+
+    --rim-energy: rgba(255,255,255,.18);
+    --rim-width: .30;
+
+    --member-bias: 1.0;
 
 }
 
@@ -43,16 +51,38 @@ svg {
 
 .face {
 
-    stroke: rgba(245,248,252,.32);
-
-    stroke-width: .85;
-    stroke: var(--edge-energy);
     vector-effect: non-scaling-stroke;
 
     stroke-linejoin: round;
     stroke-linecap: round;
 
 }
+
+
+.geometry {
+
+}
+
+.transmission {
+
+}
+
+
+.render-edge {
+
+    fill: none;
+
+    stroke: var(--edge-energy);
+
+    stroke-width: var(--edge-width);
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
+    vector-effect: non-scaling-stroke;
+
+}
+
 
 .face:hover {
 
@@ -64,29 +94,7 @@ svg {
 /* Material */
 /* ------------------------------------------------------------------ */
 
-.face-top {
 
-    fill: var(--material-top);
-
-}
-
-.face-side {
-
-    fill: rgba(255,255,255,.028);
-
-}
-
-.face-top {
-
-    fill: rgba(255,255,255,.040);
-
-}
-
-.face-bottom {
-
-    fill: rgba(255,255,255,.012);
-
-}
 
 /* ------------------------------------------------------------------ */
 /* Future placeholders */
@@ -99,7 +107,37 @@ svg {
 
 .render {}
 .render-fill {}
+
+.render-fill.face-top {
+
+    fill: var(--transmission-top);
+
+}
+
+
+
+.render-fill.face-bottom {
+
+    fill: var(--transmission-bottom);
+
+}
+
 .render-edge {}
+
+.render-rim {
+
+    fill: none;
+
+    stroke: url(#edge-rim);
+
+    stroke-width: var(--rim-width);
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
+    vector-effect: non-scaling-stroke;
+
+}
 
 .material {}
 .material-transmission {}
@@ -108,7 +146,22 @@ svg {
 .optical {}
 .optical-base {}
 .optical-density {}
-.optical-highlight {}
+.optical-highlight {
+
+    fill: none;
+
+    stroke: rgba(255,255,255,.28);
+
+    stroke-width: .18;
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
+    vector-effect: non-scaling-stroke;
+
+    mix-blend-mode: screen;
+
+}
 
 /* ------------------------------------------------------------------ */
 /* Member */
@@ -116,19 +169,49 @@ svg {
 
 .member-front {
 
+    --transmission-scale: 1.00;
+
 }
 
 .member-left {
+
+    --transmission-scale: 0.98;
 
 }
 
 .member-right {
 
+    --transmission-scale: 1.02;
+
 }
 
 .member-rear {
 
+    --transmission-scale: 1.05;
+
 }
+
+
+.edge-major {
+
+    stroke-width: 1.10;
+
+}
+
+.edge-normal {
+
+    stroke-width: .85;
+
+}
+
+.edge-minor {
+
+    stroke-width: .55;
+
+    opacity: .55;
+
+}
+
 
 </style>
 """
@@ -140,9 +223,14 @@ def face_classes(face_name: str) -> str:
     classes = [
         "render",
         "render-fill",
+
+        "geometry",
         "face",
+
+        "transmission",
         "material",
         "material-transmission",
+
         "optical",
         "optical-base",
     ]
@@ -171,13 +259,39 @@ def render(
 ) -> str:
 
     lines = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" '
-        f'width="{width}" height="{height}" '
-        f'viewBox="{-width//2} {-height//2} {width} {height}">',
-        CSS,
-        '<g class="scene">',
-        '<g class="neighbourhood">',
-    ]
+    f'<svg xmlns="http://www.w3.org/2000/svg" '
+    f'width="{width}" height="{height}" '
+    f'viewBox="{-width//2} {-height//2} {width} {height}">',
+
+    CSS,
+
+    """
+<defs>
+
+    <linearGradient id="edge-rim"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%">
+
+        <stop offset="0%" stop-color="white" stop-opacity="0.00"/>
+
+        <stop offset="30%" stop-color="white" stop-opacity="0.18"/>
+
+        <stop offset="70%" stop-color="white" stop-opacity="0.18"/>
+
+        <stop offset="100%" stop-color="white" stop-opacity="0.00"/>
+
+    </linearGradient>
+
+
+
+</defs>
+""",
+
+    '<g class="scene">',
+    '<g class="neighbourhood">',
+]
 
     if debug:
 
@@ -222,7 +336,8 @@ def render(
         role = roles[i] if i < len(roles) else "member"
 
         lines.append(
-        f'<g class="member {role}">'
+            f'<g class="member {role}" '
+            f'style="--member-transmission:1.0;">'
         )
 
         for face in solid.faces:
@@ -233,9 +348,68 @@ def render(
                 q = camera.project(p)
                 pts.append(f"{q.x:.2f},{-q.y:.2f}")
 
+            classes = face_classes(face.name)
+
+            fill = ""
+
+            if face.name.startswith("side"):
+
+                fill = (
+                    ' style="fill:url(#glass-face);"'
+                )
+
             lines.append(
                 f'<polygon '
-                f'class="{face_classes(face.name)}" '
+                f'class="{classes}"'
+                f'{fill} '
+                f'points="{" ".join(pts)}"/>'
+            )
+
+            #
+            # Specular highlight
+            #
+
+            lines.append(
+                f'<polygon '
+                f'class="{classes} optical-highlight" '
+                f'points="{" ".join(pts)}"/>'
+            )
+            #
+            # Pass 2 — Rim
+            #
+
+            rim_classes = classes.replace(
+                "render-fill",
+                "render-rim",
+            )
+
+            lines.append(
+                f'<polygon '
+                f'class="{rim_classes}" '
+                f'points="{" ".join(pts)}"/>'
+            )
+
+            #
+            # Pass 3 — Edge
+            #
+
+            edge_classes = classes.replace(
+                "render-fill",
+                "render-edge",
+            )
+
+            if face.name == "top":
+                edge_classes += " edge-major"
+
+            elif face.name == "bottom":
+                edge_classes += " edge-minor"
+
+            else:
+                edge_classes += " edge-normal"
+
+            lines.append(
+                f'<polygon '
+                f'class="{edge_classes}" '
                 f'points="{" ".join(pts)}"/>'
             )
 
