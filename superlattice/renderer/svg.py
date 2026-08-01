@@ -11,315 +11,133 @@ from superlattice.geometry.solid import Solid
 
 CSS = """
 <style>
-
-/*
-CRYSTAL MANIFEST
-
-1.
-Nothing is opaque.
-
-2.
-Nothing calls attention to itself.
-
-3.
-Edges describe thickness.
-
-4.
-Colour emerges through accumulation.
-
-5.
-Every layer contributes.
-
-6.
-No single layer defines the object.
-*/
-
-
 :root {
-
-
---scene-background: rgb(236 239 244);
-
-    /* Transmission */
-
-.render-fill.face-top {
-
-    fill: rgba(255,255,255,.010);
-
-}
-
-.member-front .render-fill.face-side {
-
-    fill: rgba(255,248,248,.005);
-
-}
-
-.member-left .render-fill.face-side {
-
-    fill: rgba(248,255,250,.005);
-
-}
-
-.member-right .render-fill.face-side {
-
-    fill: rgba(248,251,255,.005);
-
-}
-
-.member-rear .render-fill.face-side {
-
-    fill: rgba(255,252,248,.005);
-
-}
-
-.render-fill.face-bottom {
-
-    fill: rgba(255,255,255,.002);
-
-}
-
-    /* Edge */
-
-    --edge-energy: rgb(128,132,140);
-    --edge-width: .85;
-
-    /* Rim */
-
+    --scene-background: #090a0d;
+    --grid-line: rgba(255,255,255,.045);
+    --facet-top: rgba(255,255,255,.052);
+    --facet-front: rgba(255,245,248,.034);
+    --facet-left: rgba(240,255,250,.034);
+    --facet-right: rgba(240,246,255,.034);
+    --facet-rear: rgba(255,250,240,.034);
+    --edge-energy: rgba(255,255,255,.28);
+    --edge-width: .9;
     --rim-energy: rgba(255,255,255,.18);
     --rim-width: .65;
-
-    --member-bias: 1.0;
-
 }
-
-/* ------------------------------------------------------------------ */
-/* Scene */
-/* ------------------------------------------------------------------ */
 
 svg {
     background: var(--scene-background);
 }
 
-/* ------------------------------------------------------------------ */
-/* Geometry */
-/* ------------------------------------------------------------------ */
+.scene-grid line {
+    stroke: var(--grid-line);
+    stroke-width: 1;
+}
 
 .face {
-
     vector-effect: non-scaling-stroke;
-
     stroke-linejoin: round;
     stroke-linecap: round;
+}
+
+.render-fill {
+    stroke: none;
+}
+
+.face-top.surface-density {
+
+    fill: white;
+
+    opacity: .020;
+
+    stroke: none;
 
 }
 
+.face-side.surface-density {
 
-.geometry {
+    fill: url(#glass-face);
 
-}
+    opacity: .085;
 
-.transmission {
-
-}
-
-
-.render-edge {
-
-    fill: none;
-
-    stroke: var(--edge-energy);
-
-    stroke-width: var(--edge-width);
-
-    stroke-linejoin: round;
-    stroke-linecap: round;
-
-    vector-effect: non-scaling-stroke;
+    stroke: none;
 
 }
 
+.face-bottom.surface-density {
 
-.face:hover {
-
-    stroke: rgba(255,255,255,.9);
-
-}
-
-/* ------------------------------------------------------------------ */
-/* Material */
-/* ------------------------------------------------------------------ */
-
-
-
-/* ------------------------------------------------------------------ */
-/* Future placeholders */
-/* ------------------------------------------------------------------ */
-
-.scene {}
-.neighbourhood {}
-
-.member {}
-
-.render {}
-.render-fill {}
-
-.render-fill.face-top {
-
-    fill: var(--transmission-top);
+    opacity: 0;
 
 }
 
-
-
+.render-fill.face-top,
+.render-fill.face-side,
 .render-fill.face-bottom {
 
-    fill: var(--transmission-bottom);
+    fill: url(#glass-face);
 
+    opacity: .28;
+
+}
+
+
+
+
+.render-rim {
+    fill: none;
+    stroke: var(--rim-energy);
+    stroke-width: var(--rim-width);
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
 }
 
 .render-edge {
-
     fill: none;
-
-    stroke: rgba(115,120,130,.42);
-
-    stroke-width: 1.15;
-
+    stroke: var(--edge-energy);
+    stroke-width: var(--edge-width);
     stroke-linejoin: round;
     stroke-linecap: round;
-
     vector-effect: non-scaling-stroke;
-
 }
 
-.render-rim {
-
-    fill: none;
-
-    stroke: rgba(255,255,255,.55);
-
-    stroke-width: var(--rim-width);
-
-    stroke-linejoin: round;
-    stroke-linecap: round;
-
-    vector-effect: non-scaling-stroke;
-
-    opacity: .85;
-
-}
-
-.material {}
-.material-transmission {}
-.material-density {}
-
-.optical {}
-.optical-base {}
-.optical-density {}
 .optical-highlight {
 
-    fill: none;
+    fill: white;
 
-    stroke: rgba(255,255,255,.28);
+    opacity: .045;
 
-    stroke-width: .18;
-
-    stroke-linejoin: round;
-    stroke-linecap: round;
-
-    vector-effect: non-scaling-stroke;
-
-    mix-blend-mode: screen;
+    stroke: none;
 
 }
 
-/* ------------------------------------------------------------------ */
-/* Member */
-/* ------------------------------------------------------------------ */
-
-.member-front {
-
-    --transmission-scale: 1.00;
-
-}
-
-.member-left {
-
-    --transmission-scale: 0.98;
-
-}
-
-.member-right {
-
-    --transmission-scale: 1.02;
-
-}
-
-.member-rear {
-
-    --transmission-scale: 1.05;
-
-}
-
-
-.edge-major {
-
-    stroke-width: 1.10;
-
-}
-
-.edge-normal {
-
-    stroke-width: .85;
-
-}
-
-.edge-minor {
-
-    stroke-width: .55;
-
-    opacity: .55;
-
-}
-
-
+.edge-major { stroke-width: 1.1; }
+.edge-normal { stroke-width: .9; }
+.edge-minor { stroke-width: .6; opacity: .55; }
 </style>
 """
 
 
 def face_classes(face_name: str) -> str:
-    """Return semantic CSS classes for a face."""
-
     classes = [
         "render",
         "render-fill",
-
         "geometry",
         "face",
-
         "transmission",
         "material",
         "material-transmission",
-
         "optical",
         "optical-base",
     ]
 
     if face_name == "top":
-
         classes.append("face-top")
-
     elif face_name == "bottom":
-
         classes.append("face-bottom")
-
     elif face_name.startswith("side"):
-
         classes.append("face-side")
-
-        side = face_name[-1]
-
-        classes.append(f"face-side-{side}")
+        classes.append(f"face-side-{face_name[-1]}")
 
     return " ".join(classes)
 
@@ -331,44 +149,71 @@ def render(
     height: int = 600,
     debug: bool = False,
 ) -> str:
-
     lines = [
-    f'<svg xmlns="http://www.w3.org/2000/svg" '
-    f'width="{width}" height="{height}" '
-    f'viewBox="{-width//2} {-height//2} {width} {height}">',
-
-    CSS,
-
-    """
+        f'<svg xmlns="http://www.w3.org/2000/svg" '
+        f'width="{width}" height="{height}" '
+        f'viewBox="{-width//2} {-height//2} {width} {height}">',
+        CSS,
+        """
 <defs>
+    <filter id="gemShadow" x="-40%" y="-40%" width="180%" height="180%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="14" result="blur"/>
+        <feOffset in="blur" dx="0" dy="10" result="offset"/>
+        <feFlood flood-color="#000" flood-opacity="0.45" result="flood"/>
+        <feComposite in="flood" in2="offset" operator="in" result="shadow"/>
+        <feMerge>
+            <feMergeNode in="shadow"/>
+            <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+    </filter>
 
-    <linearGradient id="edge-rim"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%">
-
-        <stop offset="0%" stop-color="white" stop-opacity="0.00"/>
-
-        <stop offset="30%" stop-color="white" stop-opacity="0.18"/>
-
-        <stop offset="70%" stop-color="white" stop-opacity="0.18"/>
-
-        <stop offset="100%" stop-color="white" stop-opacity="0.00"/>
-
+    <linearGradient id="facetGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity=".20"/>
+        <stop offset="45%" stop-color="#6ecbff" stop-opacity=".10"/>
+        <stop offset="100%" stop-color="#ff7de7" stop-opacity=".16"/>
     </linearGradient>
 
+    <linearGradient id="edgeFade" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity=".05"/>
+        <stop offset="50%" stop-color="#ffffff" stop-opacity=".50"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity=".05"/>
+    </linearGradient>
+
+<linearGradient id="glass-face"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%">
+
+    <stop offset="0%" stop-color="#ffffff" stop-opacity=".18"/>
+    <stop offset="35%" stop-color="#8fdcff" stop-opacity=".08"/>
+    <stop offset="70%" stop-color="#bfa8ff" stop-opacity=".06"/>
+    <stop offset="100%" stop-color="#ff84df" stop-opacity=".14"/>
+
+</linearGradient>
 
 
 </defs>
 """,
+        '<g class="scene">',
+        '<g class="scene-grid">',
+    ]
 
-    '<g class="scene">',
-    '<g class="neighbourhood">',
-]
+    grid_step = 60
+    half_w = width // 2
+    half_h = height // 2
+
+    for x in range(-half_w, half_w + 1, grid_step):
+        lines.append(f'<line x1="{x}" y1="{-half_h}" x2="{x}" y2="{half_h}"/>')
+    for y in range(-half_h, half_h + 1, grid_step):
+        lines.append(f'<line x1="{-half_w}" y1="{y}" x2="{half_w}" y2="{y}"/>')
+
+    lines += [
+        "</g>",
+        '<g class="neighbourhood">',
+    ]
 
     if debug:
-
         origin = camera.project(Point3D(0, 0, 0))
         x_axis = camera.project(Point3D(200, 0, 0))
         y_axis = camera.project(Point3D(0, 200, 0))
@@ -378,8 +223,7 @@ def render(
 
         def draw_axis(a, b, colour):
             lines.append(
-                f'<line '
-                f'x1="{a.x:.2f}" y1="{-a.y:.2f}" '
+                f'<line x1="{a.x:.2f}" y1="{-a.y:.2f}" '
                 f'x2="{b.x:.2f}" y2="{-b.y:.2f}" '
                 f'stroke="{colour}" stroke-width="2"/>'
             )
@@ -387,15 +231,9 @@ def render(
         draw_axis(origin, x_axis, "red")
         draw_axis(origin, y_axis, "green")
         draw_axis(origin, z_axis, "blue")
-
         lines.append(
-            f'<circle '
-            f'cx="{origin.x:.2f}" '
-            f'cy="{-origin.y:.2f}" '
-            f'r="4" '
-            f'fill="black"/>'
+            f'<circle cx="{origin.x:.2f}" cy="{-origin.y:.2f}" r="4" fill="black"/>'
         )
-
         lines.append("</g>")
 
     roles = [
@@ -406,100 +244,66 @@ def render(
     ]
 
     for i, solid in enumerate(solids):
-
         role = roles[i] if i < len(roles) else "member"
 
         lines.append(
-            f'<g class="member {role}" '
-            f'style="--member-transmission:1.0;">'
+            f'<g class="member {role}" style="filter:url(#gemShadow);">'
         )
 
-        fill_pass = []
-        highlight_pass = []
-        rim_pass = []
-        edge_pass = []
         projected_faces = []
-
         for face in solid.faces:
-
             pts = []
-
             for p in face.polygon.vertices:
                 q = camera.project(p)
                 pts.append(f"{q.x:.2f},{-q.y:.2f}")
-
             projected_faces.append((face, pts))
-
         for face, pts in projected_faces:
 
             classes = face_classes(face.name)
 
-            for face, pts in projected_faces:
+            fill = ""
+            if face.name == "top":
+                fill = ' style="fill:url(#glass-face); opacity:.34;"'
+            elif face.name == "bottom":
+                fill = ' style="fill:url(#glass-face); opacity:.10;"'
+            elif face.name.startswith("side"):
+                side = face.name[-1]
+                if side in ("0", "2", "4"):
+                    fill = ' style="fill:url(#glass-face); opacity:.24;"'
+                else:
+                    fill = ' style="fill:url(#glass-face); opacity:.16;"'
 
-                classes = face_classes(face.name)
+            lines.append(
+                f'<polygon class="{classes}"{fill} points="{" ".join(pts)}"/>'
+            )
 
-                fill = ""
-
-                if face.name.startswith("side"):
-
-                    fill = (
-                        ' style="fill:url(#glass-face);"'
-                    )
-
+            if face.name != "bottom":
                 lines.append(
                     f'<polygon '
-                    f'class="{classes}"'
-                    f'{fill} '
+                    f'class="{classes} surface-density" '
                     f'points="{" ".join(pts)}"/>'
                 )
 
-            #
-            # Specular highlight
-            #
-
             lines.append(
-                f'<polygon '
-                f'class="{classes} optical-highlight" '
-                f'points="{" ".join(pts)}"/>'
+                f'<polygon class="{classes} optical-highlight" points="{" ".join(pts)}"/>'
             )
 
-            #
-            # Pass 2 — Rim
-            #
-
-            rim_classes = classes.replace(
-                "render-fill",
-                "render-rim",
-            )
-
+            rim_classes = classes.replace("render-fill", "render-rim")
             lines.append(
-                f'<polygon '
-                f'class="{rim_classes}" '
-                f'points="{" ".join(pts)}"/>'
+                f'<polygon class="{rim_classes}" points="{" ".join(pts)}"/>'
             )
 
-            #
-            # Pass 3 — Edge
-            #
 
-            edge_classes = classes.replace(
-                "render-fill",
-                "render-edge",
-            )
-
+            edge_classes = classes.replace("render-fill", "render-edge")
             if face.name == "top":
                 edge_classes += " edge-major"
-
             elif face.name == "bottom":
                 edge_classes += " edge-minor"
-
             else:
                 edge_classes += " edge-normal"
 
             lines.append(
-                f'<polygon '
-                f'class="{edge_classes}" '
-                f'points="{" ".join(pts)}"/>'
+                f'<polygon class="{edge_classes}" points="{" ".join(pts)}"/>'
             )
 
         lines.append("</g>")
