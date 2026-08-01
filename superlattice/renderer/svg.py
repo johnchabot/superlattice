@@ -414,6 +414,12 @@ def render(
             f'style="--member-transmission:1.0;">'
         )
 
+        fill_pass = []
+        highlight_pass = []
+        rim_pass = []
+        edge_pass = []
+        projected_faces = []
+
         for face in solid.faces:
 
             pts = []
@@ -421,6 +427,10 @@ def render(
             for p in face.polygon.vertices:
                 q = camera.project(p)
                 pts.append(f"{q.x:.2f},{-q.y:.2f}")
+
+            projected_faces.append((face, pts))
+
+        for face, pts in projected_faces:
 
             classes = face_classes(face.name)
 
@@ -448,6 +458,7 @@ def render(
                 f'class="{classes} optical-highlight" '
                 f'points="{" ".join(pts)}"/>'
             )
+
             #
             # Pass 2 — Rim
             #
