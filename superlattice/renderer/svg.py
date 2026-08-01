@@ -12,6 +12,29 @@ from superlattice.geometry.solid import Solid
 CSS = """
 <style>
 
+/*
+CRYSTAL MANIFEST
+
+1.
+Nothing is opaque.
+
+2.
+Nothing calls attention to itself.
+
+3.
+Edges describe thickness.
+
+4.
+Colour emerges through accumulation.
+
+5.
+Every layer contributes.
+
+6.
+No single layer defines the object.
+*/
+
+
 :root {
 
 
@@ -19,19 +42,51 @@ CSS = """
 
     /* Transmission */
 
-    --transmission-top: rgba(255,255,255,.028);
-    --transmission-side: rgba(255,255,255,.014);
-    --transmission-bottom: rgba(255,255,255,.006);
+.render-fill.face-top {
+
+    fill: rgba(255,255,255,.010);
+
+}
+
+.member-front .render-fill.face-side {
+
+    fill: rgba(255,248,248,.005);
+
+}
+
+.member-left .render-fill.face-side {
+
+    fill: rgba(248,255,250,.005);
+
+}
+
+.member-right .render-fill.face-side {
+
+    fill: rgba(248,251,255,.005);
+
+}
+
+.member-rear .render-fill.face-side {
+
+    fill: rgba(255,252,248,.005);
+
+}
+
+.render-fill.face-bottom {
+
+    fill: rgba(255,255,255,.002);
+
+}
 
     /* Edge */
 
-    --edge-energy: rgb(92,96,106);
+    --edge-energy: rgb(128,132,140);
     --edge-width: .85;
 
     /* Rim */
 
     --rim-energy: rgba(255,255,255,.18);
-    --rim-width: .30;
+    --rim-width: .65;
 
     --member-bias: 1.0;
 
@@ -122,13 +177,26 @@ svg {
 
 }
 
-.render-edge {}
+.render-edge {
+
+    fill: none;
+
+    stroke: rgba(115,120,130,.42);
+
+    stroke-width: 1.15;
+
+    stroke-linejoin: round;
+    stroke-linecap: round;
+
+    vector-effect: non-scaling-stroke;
+
+}
 
 .render-rim {
 
     fill: none;
 
-    stroke: url(#edge-rim);
+    stroke: rgba(255,255,255,.55);
 
     stroke-width: var(--rim-width);
 
@@ -136,6 +204,8 @@ svg {
     stroke-linecap: round;
 
     vector-effect: non-scaling-stroke;
+
+    opacity: .85;
 
 }
 
@@ -243,9 +313,13 @@ def face_classes(face_name: str) -> str:
 
         classes.append("face-bottom")
 
-    else:
+    elif face_name.startswith("side"):
 
         classes.append("face-side")
+
+        side = face_name[-1]
+
+        classes.append(f"face-side-{side}")
 
     return " ".join(classes)
 
