@@ -28,7 +28,7 @@ class Camera:
     eye: Point3D = Point3D(-500.0, -700.0, 350.0)
 
     # Where the camera is looking
-    target: Point3D = Point3D(0.0, 0.0, 180.0)
+    target: Point3D = Point3D(0.0, 0.0, 0.0)
 
     focal_length: float = 600.0
 

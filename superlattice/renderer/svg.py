@@ -11,133 +11,164 @@ from superlattice.geometry.solid import Solid
 
 CSS = """
 <style>
-:root {
-    --scene-background: #090a0d;
-    --grid-line: rgba(255,255,255,.045);
-    --facet-top: rgba(255,255,255,.052);
-    --facet-front: rgba(255,245,248,.034);
-    --facet-left: rgba(240,255,250,.034);
-    --facet-right: rgba(240,246,255,.034);
-    --facet-rear: rgba(255,250,240,.034);
-    --edge-energy: rgba(255,255,255,.28);
-    --edge-width: .9;
-    --rim-energy: rgba(255,255,255,.18);
-    --rim-width: .65;
+:root{
+
+  --scene-background: rgb(236 239 244);
+
+  /* Transmission */
+  --transmission-top: rgba(255,255,255,.010);
+  --transmission-bottom: rgba(255,255,255,.002);
+  --transmission-front: rgba(255,248,248,.005);
+  --transmission-left: rgba(248,255,250,.005);
+  --transmission-right: rgba(248,251,255,.005);
+  --transmission-rear: rgba(255,252,248,.005);
+
+  --material-core: var(--transmission-bottom);
+
+  /* Edges */
+  --edge-energy: rgba(80,85,92,.28);
+  --edge-width: 1.15;
+
+  /* Rim */
+  --rim-energy: rgba(255,255,255,.55);
+  --rim-width: .65;
 }
 
-svg {
-    background: var(--scene-background);
+svg{
+  background:var(--scene-background);
 }
 
-.scene-grid line {
-    stroke: var(--grid-line);
-    stroke-width: 1;
+.face{
+  vector-effect:non-scaling-stroke;
+  stroke-linejoin:round;
+  stroke-linecap:round;
 }
 
-.face {
-    vector-effect: non-scaling-stroke;
-    stroke-linejoin: round;
-    stroke-linecap: round;
-}
-
-.render-fill {
-    stroke: none;
-}
-
-.face-top.surface-density {
-
-    fill: white;
-
-    opacity: .020;
-
-    stroke: none;
-
-}
-
-.face-side.surface-density {
-
-    fill: url(#glass-face);
-
-    opacity: .085;
-
-    stroke: none;
-
-}
-
-.face-bottom.surface-density {
-
-    opacity: 0;
-
-}
-
-.render-fill.face-top,
-.render-fill.face-side,
-.render-fill.face-bottom {
-
-    fill: url(#glass-face);
-
-    opacity: .28;
-
+.face:hover{
+  stroke:rgba(255,255,255,.9);
 }
 
 
-
-
-.render-rim {
-    fill: none;
-    stroke: var(--rim-energy);
-    stroke-width: var(--rim-width);
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
+.material-core.orientation-bottom {
+    fill: var(--material-core);
 }
 
-.render-edge {
-    fill: none;
-    stroke: var(--edge-energy);
-    stroke-width: var(--edge-width);
-    stroke-linejoin: round;
-    stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
+/* Material aliases */
+.material-shell {
+    opacity: .22;
 }
 
-.optical-highlight {
-
-    fill: white;
-
-    opacity: .045;
-
-    stroke: none;
-
+.material-shell.orientation-top,
+.material-shell.orientation-side {
+    fill: url(#facetGlass);
 }
 
-.edge-major { stroke-width: 1.1; }
-.edge-normal { stroke-width: .9; }
-.edge-minor { stroke-width: .6; opacity: .55; }
+
+.render-edge{
+  fill:none;
+  stroke:var(--edge-energy);
+  stroke-width:var(--edge-width);
+  stroke-linejoin:round;
+  stroke-linecap:round;
+  vector-effect:non-scaling-stroke;
+}
+
+.render-rim{
+  fill:none;
+  stroke:var(--rim-energy);
+  stroke-width:var(--rim-width);
+  stroke-linejoin:round;
+  stroke-linecap:round;
+  vector-effect:non-scaling-stroke;
+  opacity:.35;
+}
+
+.edge-glow{
+    fill:none;
+    stroke:white;
+    stroke-width:.35;
+    opacity:.35;
+    vector-effect:non-scaling-stroke;
+    stroke-linejoin:round;
+    stroke-linecap:round;
+}
+
+.optical-highlight{
+  fill:none;
+ stroke: rgba(255,255,255,.18);
+  stroke-width:.18;
+  stroke-linejoin:round;
+  stroke-linecap:round;
+  vector-effect:non-scaling-stroke;
+  mix-blend-mode:screen;
+}
+
+.material-shell.orientation-side {
+    fill: url(#facetGlass);
+}
+
+.surface-density {
+    fill: url(#densityGlass);
+    mix-blend-mode: multiply;
+    opacity: .30;
+}
+
+.edge-major{stroke-width:1.10;}
+.edge-normal{stroke-width:.85;}
+.edge-minor{
+  stroke-width:.55;
+  opacity:.55;
+}
 </style>
 """
 
 
 def face_classes(face_name: str) -> str:
+    """Return semantic CSS classes for a face."""
+    print(face_name)
     classes = [
         "render",
         "render-fill",
+
         "geometry",
         "face",
+
         "transmission",
         "material",
         "material-transmission",
+
         "optical",
         "optical-base",
     ]
 
     if face_name == "top":
-        classes.append("face-top")
+
+        classes.extend([
+            "face-top",
+            "material-shell",
+            "orientation-top",
+        ])
+
     elif face_name == "bottom":
-        classes.append("face-bottom")
+
+        classes.extend([
+            "face-bottom",
+            "material-core",
+            "orientation-bottom",
+        ])
+
+
     elif face_name.startswith("side"):
-        classes.append("face-side")
-        classes.append(f"face-side-{face_name[-1]}")
+
+        classes.extend([
+            "face-side",
+            "material-shell",
+            "orientation-side",
+        ])
+
+        side = face_name[-1]
+
+        classes.append(f"face-side-{side}")
 
     return " ".join(classes)
 
@@ -167,10 +198,24 @@ def render(
         </feMerge>
     </filter>
 
-    <linearGradient id="facetGlass" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#ffffff" stop-opacity=".20"/>
-        <stop offset="45%" stop-color="#6ecbff" stop-opacity=".10"/>
-        <stop offset="100%" stop-color="#ff7de7" stop-opacity=".16"/>
+    <linearGradient id="densityGlass"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%">
+        <stop offset="0%"   stop-color="#ffffff" stop-opacity="0"/>
+        <stop offset="45%"  stop-color="#d9e2ec" stop-opacity=".08"/>
+        <stop offset="100%" stop-color="#7a8798" stop-opacity=".28"/>
+    </linearGradient>
+
+
+    <linearGradient id="facetGlass"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%">
+        <stop offset="0%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#d8e6f4"/>
     </linearGradient>
 
     <linearGradient id="edgeFade" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -179,19 +224,18 @@ def render(
         <stop offset="100%" stop-color="#ffffff" stop-opacity=".05"/>
     </linearGradient>
 
-<linearGradient id="glass-face"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%">
+    <linearGradient id="glass-face"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%">
 
-    <stop offset="0%" stop-color="#ffffff" stop-opacity=".18"/>
-    <stop offset="35%" stop-color="#8fdcff" stop-opacity=".08"/>
-    <stop offset="70%" stop-color="#bfa8ff" stop-opacity=".06"/>
-    <stop offset="100%" stop-color="#ff84df" stop-opacity=".14"/>
+        <stop offset="0%" stop-color="#ffffff" stop-opacity=".18"/>
+        <stop offset="35%" stop-color="#8fdcff" stop-opacity=".08"/>
+        <stop offset="70%" stop-color="#bfa8ff" stop-opacity=".06"/>
+        <stop offset="100%" stop-color="#ff84df" stop-opacity=".14"/>
 
-</linearGradient>
-
+    </linearGradient>
 
 </defs>
 """,
@@ -236,11 +280,13 @@ def render(
         )
         lines.append("</g>")
 
+    render_faces = []
+    
     roles = [
         "member-front",
-        "member-left",
-        "member-right",
-        "member-rear",
+        "member-front",
+        "member-front",
+        "member-front",
     ]
 
     for i, solid in enumerate(solids):
@@ -252,32 +298,37 @@ def render(
 
         projected_faces = []
         for face in solid.faces:
+            
             pts = []
             for p in face.polygon.vertices:
                 q = camera.project(p)
                 pts.append(f"{q.x:.2f},{-q.y:.2f}")
-            projected_faces.append((face, pts))
-        for face, pts in projected_faces:
+            depth = sum(v.z for v in face.polygon.vertices) / len(face.polygon.vertices)
+
+            projected_faces.append(
+                (
+                    depth,
+                    role,
+                    face,
+                    pts,
+                )
+            )
+        render_faces.extend(projected_faces)
+
+
+        for depth, role, face, pts in projected_faces:
 
             classes = face_classes(face.name)
 
-            fill = ""
-            if face.name == "top":
-                fill = ' style="fill:url(#glass-face); opacity:.34;"'
-            elif face.name == "bottom":
-                fill = ' style="fill:url(#glass-face); opacity:.10;"'
-            elif face.name.startswith("side"):
-                side = face.name[-1]
-                if side in ("0", "2", "4"):
-                    fill = ' style="fill:url(#glass-face); opacity:.24;"'
-                else:
-                    fill = ' style="fill:url(#glass-face); opacity:.16;"'
 
-            lines.append(
-                f'<polygon class="{classes}"{fill} points="{" ".join(pts)}"/>'
-            )
+ 
+            if True:
+                lines.append(
+                    f'<polygon '
+                    f'class="{classes}" '
+                    f'points="{" ".join(pts)}"/>'
+                )
 
-            if face.name != "bottom":
                 lines.append(
                     f'<polygon '
                     f'class="{classes} surface-density" '
@@ -285,16 +336,25 @@ def render(
                 )
 
             lines.append(
-                f'<polygon class="{classes} optical-highlight" points="{" ".join(pts)}"/>'
+                f'<polygon class="face optical-highlight material-shell-pass" '
+                f'points="{" ".join(pts)}"/>'
             )
 
-            rim_classes = classes.replace("render-fill", "render-rim")
+            if face.name == "top":
+                orientation = "orientation-top"
+            elif face.name == "bottom":
+                orientation = "orientation-bottom"
+            else:
+                orientation = "orientation-side"
+
+            rim_classes = f"face render-rim material-boundary {orientation}"
+
             lines.append(
                 f'<polygon class="{rim_classes}" points="{" ".join(pts)}"/>'
             )
 
+            edge_classes = f"face render-edge material-boundary {orientation}"
 
-            edge_classes = classes.replace("render-fill", "render-edge")
             if face.name == "top":
                 edge_classes += " edge-major"
             elif face.name == "bottom":
@@ -305,6 +365,11 @@ def render(
             lines.append(
                 f'<polygon class="{edge_classes}" points="{" ".join(pts)}"/>'
             )
+
+            lines.append(
+                f'<polygon class="face edge-glow" points="{" ".join(pts)}"/>'
+            )
+
 
         lines.append("</g>")
 

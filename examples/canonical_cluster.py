@@ -17,8 +17,8 @@ from superlattice.renderer.svg import render
 # ------------------------------------------------------------------
 
 CAMERA_DISTANCE = 900.0
-CAMERA_AZIMUTH = 3.0       # degrees (0 = straight-on)
-CAMERA_HEIGHT = 400.0
+CAMERA_AZIMUTH = 0       # degrees (0 = straight-on)
+CAMERA_HEIGHT = 100
 
 TARGET = Point3D(
     0.0,

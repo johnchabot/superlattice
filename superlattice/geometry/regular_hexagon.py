@@ -27,6 +27,15 @@ class RegularHexagon:
                     self.center.y + self.radius * sin(angle),
                     self.center.z,
                 )
+
+
             )
+
+            print(
+                i,
+                round(vertices[-1].x, 1),
+                round(vertices[-1].y, 1),
+            )
+
 
         return Polygon(tuple(vertices))
